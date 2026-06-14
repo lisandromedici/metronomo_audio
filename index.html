@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Playback con cuenta</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="transport" aria-label="Playback con cuenta de metrónomo">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Playback local</p>
+            <h1>Cuenta y arranque</h1>
+          </div>
+          <div class="status-pill" id="statusPill">Sin audio</div>
+        </div>
+
+        <div class="stage">
+          <div class="beat-orb" id="beatOrb" aria-live="polite">
+            <span id="countDisplay">0</span>
+          </div>
+          <div class="track-meta">
+            <p id="trackName">Cargá un archivo MP3, WAV, M4A u OGG</p>
+            <div class="progress-wrap" aria-label="Progreso del audio">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="time-row">
+              <span id="currentTime">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-grid">
+          <label class="file-drop" for="audioFile">
+            <input id="audioFile" type="file" accept="audio/*">
+            <span class="file-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <path d="M9 18V5l10-2v13"></path>
+                <circle cx="7" cy="18" r="3"></circle>
+                <circle cx="17" cy="16" r="3"></circle>
+              </svg>
+            </span>
+            <span>Elegir audio</span>
+          </label>
+
+          <label class="field">
+            <span>BPM</span>
+            <input id="bpmInput" type="number" min="40" max="260" value="120" inputmode="numeric">
+          </label>
+
+          <label class="field">
+            <span>Cuenta</span>
+            <select id="countInSelect">
+              <option value="4" selected>4 tiempos</option>
+              <option value="8">8 tiempos</option>
+              <option value="2">2 tiempos</option>
+              <option value="1">1 tiempo</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Click</span>
+            <input id="clickVolume" type="range" min="0" max="100" value="70">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="primary-action" id="startButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            Iniciar
+          </button>
+          <button class="ghost-action" id="stopButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6" y="6" width="12" height="12" rx="1"></rect>
+            </svg>
+            Detener
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
