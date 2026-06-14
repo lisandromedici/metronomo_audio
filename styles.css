@@ -107,6 +107,37 @@ h1 {
   white-space: nowrap;
 }
 
+.tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px 0;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.tab-button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-bottom-color: transparent;
+  border-radius: 8px 8px 0 0;
+  background: rgba(17, 19, 22, 0.58);
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.tab-button.is-active {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.is-active {
+  display: block;
+}
+
 .stage {
   display: grid;
   grid-template-columns: minmax(180px, 270px) 1fr;
@@ -306,6 +337,66 @@ svg {
   border: 1px solid var(--line);
 }
 
+.lyrics-workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 24px;
+}
+
+.lyrics-box {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.lyrics-box span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.lyrics-box textarea {
+  width: 100%;
+  min-height: 340px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: 0;
+  padding: 14px;
+  background: var(--panel-strong);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.lyrics-box textarea:focus {
+  border-color: rgba(255, 122, 89, 0.8);
+  box-shadow: 0 0 0 3px rgba(239, 100, 97, 0.18);
+}
+
+.lyrics-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 24px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.11);
+}
+
+.compact-action {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 44px;
+}
+
+.lyrics-status {
+  color: var(--green);
+  font-weight: 800;
+  min-height: 1.2em;
+}
+
 @media (max-width: 760px) {
   .app-shell {
     align-items: start;
@@ -313,9 +404,12 @@ svg {
   }
 
   .topbar,
+  .tabs,
   .stage,
   .controls-grid,
-  .actions {
+  .actions,
+  .lyrics-workspace,
+  .lyrics-actions {
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -335,6 +429,14 @@ svg {
     grid-template-columns: 1fr 1fr;
   }
 
+  .lyrics-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .lyrics-box textarea {
+    min-height: 220px;
+  }
+
   .file-drop {
     grid-column: 1 / -1;
   }
@@ -347,6 +449,11 @@ svg {
   }
 
   .actions {
+    flex-direction: column;
+  }
+
+  .lyrics-actions {
+    align-items: stretch;
     flex-direction: column;
   }
 

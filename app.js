@@ -11,6 +11,14 @@ const trackName = document.querySelector("#trackName");
 const progressBar = document.querySelector("#progressBar");
 const currentTimeLabel = document.querySelector("#currentTime");
 const durationLabel = document.querySelector("#duration");
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabPanels = document.querySelectorAll(".tab-panel");
+const lyricsInput = document.querySelector("#lyricsInput");
+const lyricsOutput = document.querySelector("#lyricsOutput");
+const lowercaseButton = document.querySelector("#lowercaseButton");
+const copyLyricsButton = document.querySelector("#copyLyricsButton");
+const clearLyricsButton = document.querySelector("#clearLyricsButton");
+const lyricsStatus = document.querySelector("#lyricsStatus");
 
 let audioContext;
 let audioBuffer;
@@ -30,6 +38,12 @@ audioFile.addEventListener("change", handleFileUpload);
 startButton.addEventListener("click", startCountIn);
 stopButton.addEventListener("click", stopPlayback);
 bpmInput.addEventListener("input", clampBpm);
+document.addEventListener("keydown", handleKeyboardShortcut);
+tabButtons.forEach((button) => button.addEventListener("click", () => activateTab(button)));
+lyricsInput.addEventListener("input", updateLowercaseLyrics);
+lowercaseButton.addEventListener("click", updateLowercaseLyrics);
+copyLyricsButton.addEventListener("click", copyLowercaseLyrics);
+clearLyricsButton.addEventListener("click", clearLyrics);
 
 async function handleFileUpload(event) {
   const file = event.target.files?.[0];
@@ -57,7 +71,7 @@ async function handleFileUpload(event) {
     console.error(error);
     audioBuffer = null;
     trackName.textContent = "No pude leer ese audio. Probá con otro formato.";
-    countDisplay.textContent = "--";
+    countDisplay.textContent = "0";
     setMode("error");
   }
 }
@@ -102,6 +116,22 @@ async function startCountIn() {
     beatOrb.classList.add("is-playing");
     updateProgress();
   });
+}
+
+function handleKeyboardShortcut(event) {
+  if (event.code !== "Space" || isTypingTarget(event.target)) return;
+  if (event.target.closest?.(".tab-button")) return;
+
+  event.preventDefault();
+
+  if (state.mode === "counting" || state.mode === "playing") {
+    stopPlayback();
+    return;
+  }
+
+  if (audioBuffer && !startButton.disabled) {
+    startCountIn();
+  }
 }
 
 function stopPlayback(options = {}) {
@@ -218,6 +248,58 @@ function setMode(mode) {
     startButton.disabled = false;
     stopButton.disabled = true;
   }
+}
+
+function activateTab(activeButton) {
+  tabButtons.forEach((button) => {
+    const isActive = button === activeButton;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+
+  tabPanels.forEach((panel) => {
+    const isActive = panel.id === activeButton.getAttribute("aria-controls");
+    panel.classList.toggle("is-active", isActive);
+    panel.hidden = !isActive;
+  });
+}
+
+function updateLowercaseLyrics() {
+  lyricsOutput.value = lyricsInput.value.toLocaleLowerCase("es-AR");
+  setLyricsStatus(lyricsOutput.value ? "Listo" : "");
+}
+
+async function copyLowercaseLyrics() {
+  if (!lyricsOutput.value) {
+    setLyricsStatus("No hay texto");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(lyricsOutput.value);
+    setLyricsStatus("Copiado");
+  } catch {
+    lyricsOutput.focus();
+    lyricsOutput.select();
+    document.execCommand("copy");
+    setLyricsStatus("Copiado");
+  }
+}
+
+function clearLyrics() {
+  lyricsInput.value = "";
+  lyricsOutput.value = "";
+  setLyricsStatus("");
+  lyricsInput.focus();
+}
+
+function setLyricsStatus(message) {
+  lyricsStatus.textContent = message;
+}
+
+function isTypingTarget(target) {
+  const tagName = target?.tagName;
+  return target?.isContentEditable || tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT";
 }
 
 function clampBpm() {
