@@ -397,6 +397,61 @@ svg {
   min-height: 1.2em;
 }
 
+.light-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 45%, #ff9a1a 0%, #ff7a00 45%, #ff5a00 100%);
+}
+
+.light-overlay[hidden] {
+  display: none;
+}
+
+/* Barra discreta: queda casi invisible para no restar luz. */
+.light-hud {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+}
+
+.light-hud:hover {
+  opacity: 1;
+}
+
+.light-count {
+  min-width: 3ch;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.light-hint {
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.light-hud button {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  color: inherit;
+  font-weight: 800;
+}
+
 @media (max-width: 760px) {
   .app-shell {
     align-items: start;

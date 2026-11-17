@@ -20,6 +20,12 @@ const copyLyricsButton = document.querySelector("#copyLyricsButton");
 const clearLyricsButton = document.querySelector("#clearLyricsButton");
 const lyricsStatus = document.querySelector("#lyricsStatus");
 
+const lightButton = document.querySelector("#lightButton");
+const lightOverlay = document.querySelector("#lightOverlay");
+const lightExitButton = document.querySelector("#lightExitButton");
+const lightStatus = document.querySelector("#lightStatus");
+const lightCount = document.querySelector("#lightCount");
+
 let audioContext;
 let audioBuffer;
 let activeSource;
@@ -44,6 +50,30 @@ lyricsInput.addEventListener("input", updateLowercaseLyrics);
 lowercaseButton.addEventListener("click", updateLowercaseLyrics);
 copyLyricsButton.addEventListener("click", copyLowercaseLyrics);
 clearLyricsButton.addEventListener("click", clearLyrics);
+lightButton.addEventListener("click", () => setLightMode(true));
+lightExitButton.addEventListener("click", () => setLightMode(false));
+
+// Espeja estado y cuenta en la barra del modo luz.
+const mirrorToLight = () => {
+  lightStatus.textContent = statusPill.textContent;
+  lightCount.textContent = countDisplay.textContent;
+};
+const lightObserver = new MutationObserver(mirrorToLight);
+lightObserver.observe(statusPill, { childList: true, characterData: true, subtree: true });
+lightObserver.observe(countDisplay, { childList: true, characterData: true, subtree: true });
+mirrorToLight();
+
+function setLightMode(enabled) {
+  lightOverlay.hidden = !enabled;
+  // Soltar el foco: si no, la barra espaciadora volvería a activar el botón.
+  document.activeElement?.blur?.();
+
+  if (enabled) {
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  } else if (document.fullscreenElement) {
+    document.exitFullscreen?.().catch(() => {});
+  }
+}
 
 async function handleFileUpload(event) {
   const file = event.target.files?.[0];
@@ -119,6 +149,11 @@ async function startCountIn() {
 }
 
 function handleKeyboardShortcut(event) {
+  if (event.code === "Escape" && !lightOverlay.hidden) {
+    setLightMode(false);
+    return;
+  }
+
   if (event.code !== "Space" || isTypingTarget(event.target)) return;
   if (event.target.closest?.(".tab-button")) return;
 
