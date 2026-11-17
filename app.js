@@ -25,6 +25,7 @@ const lightOverlay = document.querySelector("#lightOverlay");
 const lightExitButton = document.querySelector("#lightExitButton");
 const lightStatus = document.querySelector("#lightStatus");
 const lightCount = document.querySelector("#lightCount");
+const lightFreezeButton = document.querySelector("#lightFreezeButton");
 
 let audioContext;
 let audioBuffer;
@@ -52,6 +53,14 @@ copyLyricsButton.addEventListener("click", copyLowercaseLyrics);
 clearLyricsButton.addEventListener("click", clearLyrics);
 lightButton.addEventListener("click", () => setLightMode(true));
 lightExitButton.addEventListener("click", () => setLightMode(false));
+lightFreezeButton.addEventListener("click", toggleLightFreeze);
+
+function toggleLightFreeze() {
+  const frozen = lightOverlay.classList.toggle("is-frozen");
+  lightFreezeButton.textContent = frozen ? "Mover" : "Congelar";
+  // Sin foco en el botón, la barra espaciadora sigue controlando el audio.
+  lightFreezeButton.blur();
+}
 
 // Espeja estado y cuenta en la barra del modo luz.
 const mirrorToLight = () => {
@@ -151,6 +160,11 @@ async function startCountIn() {
 function handleKeyboardShortcut(event) {
   if (event.code === "Escape" && !lightOverlay.hidden) {
     setLightMode(false);
+    return;
+  }
+
+  if (event.code === "KeyP" && !lightOverlay.hidden && !isTypingTarget(event.target)) {
+    toggleLightFreeze();
     return;
   }
 
