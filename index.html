@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Playback con cuenta</title>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
   </head>
   <body>
     <main class="app-shell">
@@ -125,14 +125,22 @@
     </main>
 
     <div class="light-overlay" id="lightOverlay" hidden>
+      <div class="lava" aria-hidden="true">
+        <span class="blob blob-dark"></span>
+        <span class="blob blob-yellow"></span>
+        <span class="blob blob-yellow-small"></span>
+        <span class="blob blob-orange"></span>
+        <span class="blob blob-orange-small"></span>
+      </div>
       <div class="light-hud">
         <span id="lightStatus">Sin audio</span>
         <span class="light-count" id="lightCount">0</span>
-        <span class="light-hint">Espacio: iniciar/detener · Esc: salir</span>
+        <span class="light-hint">Espacio: iniciar/detener · P: congelar · Esc: salir</span>
+        <button type="button" id="lightFreezeButton">Congelar</button>
         <button type="button" id="lightExitButton">Salir</button>
       </div>
     </div>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
   </body>
 </html>

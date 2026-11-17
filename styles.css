@@ -405,16 +405,109 @@ svg {
   align-items: flex-end;
   justify-content: center;
   padding: 20px;
-  background:
-    radial-gradient(circle at 50% 40%, #ff8a2a 0%, #ff4d00 28%, #ff2200 58%, #d40a00 82%, #a80000 100%);
+  overflow: hidden;
+  /* Fondo rojo como el líquido de una lava lamp: más oscuro arriba, más vivo abajo. */
+  background: linear-gradient(180deg, #a30800 0%, #cc1200 32%, #ff3300 70%, #ff4a00 100%);
 }
 
 .light-overlay[hidden] {
   display: none;
 }
 
+.lava {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  filter: blur(5px);
+  will-change: transform;
+  animation: lava-float 26s ease-in-out infinite alternate;
+}
+
+.blob-dark {
+  top: 22%;
+  left: -12%;
+  width: 55vw;
+  height: 55vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, #ff2a00 0%, rgba(255, 42, 0, 0) 70%);
+  filter: blur(30px);
+  animation-duration: 34s;
+}
+
+.blob-yellow {
+  bottom: -22vh;
+  left: 42%;
+  width: 36vw;
+  height: 72vh;
+  border-radius: 48% 48% 40% 40% / 55% 55% 45% 45%;
+  background: radial-gradient(ellipse at 50% 35%, #ffff66 0%, #fff033 50%, #ffc800 85%, #ffb000 100%);
+  animation-duration: 30s;
+}
+
+.blob-yellow-small {
+  bottom: -12vh;
+  left: 18%;
+  width: 20vw;
+  height: 22vh;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #ffff55 0%, #ffe21f 70%, #ffbf00 100%);
+  animation-duration: 22s;
+  animation-delay: -8s;
+}
+
+.blob-orange {
+  top: -10vh;
+  right: 6%;
+  width: 28vw;
+  height: 28vw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 40%, #ffc246 0%, #ff9d1c 60%, #ff7a00 100%);
+  animation-duration: 28s;
+  animation-delay: -12s;
+}
+
+.blob-orange-small {
+  top: -9vh;
+  left: 28%;
+  width: 20vw;
+  height: 20vw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, #ffb030 0%, #ff8a10 70%, #ff6a00 100%);
+  animation-duration: 24s;
+  animation-delay: -4s;
+}
+
+@keyframes lava-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3vw, -9vh, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-3vw, 7vh, 0) scale(0.94);
+  }
+}
+
+/* Congelado: el usuario elige el cuadro que más le gusta y lo deja fijo. */
+.light-overlay.is-frozen .blob {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
+}
+
 /* Barra discreta: queda casi invisible para no restar luz. */
 .light-hud {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 14px;
