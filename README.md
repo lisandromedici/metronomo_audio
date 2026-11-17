@@ -13,4 +13,6 @@ La cuenta predeterminada es de 3 tiempos. La barra espaciadora tambien detiene l
 
 La pestaña **Letra** permite pegar texto y convertirlo a minusculas para subtitulos.
 
+El boton **Modo luz** (en Playback) llena la pantalla de naranja intenso para usar la compu como lampara calida. La barra espaciadora sigue iniciando y deteniendo el audio, y **Esc** sale del modo.
+
 No sube el audio a internet: el archivo se lee localmente en el navegador.
