@@ -406,7 +406,7 @@ svg {
   justify-content: center;
   padding: 20px;
   background:
-    radial-gradient(circle at 50% 40%, #fff3a0 0%, #ffd23a 14%, #ffa000 38%, #ff6a00 66%, #ff2a00 100%);
+    radial-gradient(circle at 50% 40%, #ff8a2a 0%, #ff4d00 28%, #ff2200 58%, #d40a00 82%, #a80000 100%);
 }
 
 .light-overlay[hidden] {
